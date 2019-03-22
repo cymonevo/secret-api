@@ -10,6 +10,7 @@ vendor/
 *.dll
 *.so
 *.dylib
+articleapp
 
 # Test binary, build with `go test -c`
 *.test
