@@ -1,3 +1,9 @@
+# Goland IDEA files
+.idea/
+
+# Dependencies libraries
+vendor/
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
