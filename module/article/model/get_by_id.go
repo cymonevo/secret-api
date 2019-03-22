@@ -1,9 +1,10 @@
 package model
 
 import (
+	"time"
+
 	ientity "github.com/cymon1997/go-backend/internal/entity"
 	"github.com/cymon1997/go-backend/module/article/entity"
-	"time"
 )
 
 type getByIDModel struct {

@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	article "github.com/cymon1997/go-backend/module/article/model"
 	"log"
 
 	"encoding/json"
 	"net/http"
 
 	"github.com/cymon1997/go-backend/internal/entity"
+	article "github.com/cymon1997/go-backend/module/article/model"
 	"github.com/gorilla/mux"
 )
 
