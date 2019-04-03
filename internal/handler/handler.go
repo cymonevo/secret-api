@@ -9,13 +9,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type handlerImpl struct {
-	router *mux.Router
-}
-
 type Router interface {
 	Handle(path string, method string, f func(ctx context.Context, r *http.Request) (interface{}, error))
 	ServeHTTP(w http.ResponseWriter, r *http.Request)
+}
+
+type handlerImpl struct {
+	router *mux.Router
 }
 
 func NewRouter() Router {
