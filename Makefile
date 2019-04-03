@@ -15,12 +15,13 @@ update:
 	@echo "update success!"
 
 build:
-	@echo "building article-app..."
-	@go build -o articleapp ./cmd/articleapp/
+	@echo "building main-app..."
+	@go build -o mainapp ./cmd/mainapp/
 	@echo "build success!"
 
 run:
 	@echo "starting app..."
-	@./articleapp & wait
+	@./mainapp & wait
 
 all: install build run
+quick: build run
