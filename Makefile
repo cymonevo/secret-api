@@ -21,7 +21,7 @@ build:
 
 run:
 	@echo "starting app..."
-	@./mainapp & wait
+	@./mainapp
 
 all: install build run
 quick: build run
