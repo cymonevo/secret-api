@@ -1,0 +1,30 @@
+[DBConfig]
+driver = mysql
+dbname = go-backend
+user = root
+password = root
+host = 127.0.0.1
+port = 3306
+
+[RedisConfig]
+network = tcp
+address = 127.0.0.1
+port = 6379
+idletimeout = 10
+maxactive = 30
+maxidle = 240
+
+[MQProducerConfig]
+nsqdaddress = 127.0.0.1:4150
+
+[MQConsumerConfig]
+topic = nsq_0319
+channel = update_visitor_aji
+lookupaddress = 127.0.0.1:4161
+maxattempts = 3
+maxinflight = 5
+
+[ESConfig]
+protocol = http
+host = 127.0.0.1
+port = 9200
