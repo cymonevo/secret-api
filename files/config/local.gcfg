@@ -14,12 +14,12 @@ idletimeout = 10
 maxactive = 30
 maxidle = 240
 
-[MQProducerConfig]
+[MQPublisherConfig]
 nsqdaddress = 127.0.0.1:4150
 
 [MQConsumerConfig]
-topic = nsq_0319
-channel = update_visitor_aji
+topic = Check_Consumer
+channel = go_backend
 lookupaddress = 127.0.0.1:4161
 maxattempts = 3
 maxinflight = 5

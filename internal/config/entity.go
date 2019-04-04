@@ -5,11 +5,11 @@ import (
 )
 
 type MainConfig struct {
-	DBConfig         DBConfig
-	RedisConfig      RedisConfig
-	MQProducerConfig MQProducerConfig
-	MQConsumerConfig MQConsumerConfig
-	ESConfig         ESConfig
+	DBConfig          DBConfig
+	RedisConfig       RedisConfig
+	MQPublisherConfig MQPublisherConfig
+	MQConsumerConfig  MQConsumerConfig
+	ESConfig          ESConfig
 }
 
 type DBConfig struct {
@@ -30,7 +30,7 @@ type RedisConfig struct {
 	MaxIdle     int
 }
 
-type MQProducerConfig struct {
+type MQPublisherConfig struct {
 	NsqdAddress string
 }
 
