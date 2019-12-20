@@ -35,8 +35,6 @@ type MQPublisherConfig struct {
 }
 
 type MQConsumerConfig struct {
-	Topic         string
-	Channel       string
 	LookupAddress string
 	MaxAttempts   uint16
 	MaxInFlight   int

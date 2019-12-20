@@ -10,7 +10,7 @@ import (
 	"gopkg.in/olivere/elastic.v6"
 )
 
-type ESClient interface {
+type Client interface {
 	Dial(ctx context.Context) (*elastic.PingResult, error)
 	IndexExists(ctx context.Context, index string) (bool, error)
 	CreateIndex(ctx context.Context, index string) (*elastic.IndicesCreateResult, error)
@@ -19,36 +19,37 @@ type ESClient interface {
 	PutJSONWithID(ctx context.Context, index string, dataType string, id string, data interface{}) (*elastic.IndexResponse, error)
 	PutString(ctx context.Context, index string, dataType string, data string) (*elastic.IndexResponse, error)
 	PutStringWithID(ctx context.Context, index string, dataType string, id string, data string) (*elastic.IndexResponse, error)
-	Update(ctx context.Context, index string, dataType string, id string, data interface{}, script *elastic.Script) (*elastic.UpdateResponse, error)
+	Update(ctx context.Context, index string, dataType string, id string, data interface{}) (*elastic.UpdateResponse, error)
+	UpdateWithScript(ctx context.Context, index string, dataType string, id string, data interface{}, script *elastic.Script) (*elastic.UpdateResponse, error)
 	DeleteIndex(ctx context.Context, index string) (*elastic.IndicesDeleteResponse, error)
 	DeleteByID(ctx context.Context, index string, dataType string, id string) (*elastic.DeleteResponse, error)
 	GetSearchInstance() *elastic.SearchService
 	Flush(ctx context.Context, index string) (*elastic.IndicesFlushResponse, error)
 }
 
-type esClient struct {
+type clientImpl struct {
 	client *elastic.Client
 	host   string
 }
 
-func NewESClient(cfg *config.ESConfig) ESClient {
+func NewESClient(cfg config.ESConfig) *clientImpl {
 	client, err := elastic.NewClientFromConfig(parseConfig(cfg))
 	if err != nil {
 		log.FatalDetail(log.TagES, "error create es client", err)
 	}
-	return &esClient{
+	return &clientImpl{
 		client: client,
 		host:   parseAddress(cfg),
 	}
 }
 
-func parseConfig(cfg *config.ESConfig) *esconfig.Config {
+func parseConfig(cfg config.ESConfig) *esconfig.Config {
 	return &esconfig.Config{
 		URL: parseAddress(cfg),
 	}
 }
 
-func (c *esClient) Dial(ctx context.Context) (*elastic.PingResult, error) {
+func (c *clientImpl) Dial(ctx context.Context) (*elastic.PingResult, error) {
 	result, status, err := c.client.Ping(c.host).Do(ctx)
 	if err != nil && status != http.StatusOK {
 		log.ErrorDetail(log.TagES, "error dial es", err)
@@ -57,7 +58,7 @@ func (c *esClient) Dial(ctx context.Context) (*elastic.PingResult, error) {
 	return result, nil
 }
 
-func (c *esClient) IndexExists(ctx context.Context, index string) (bool, error) {
+func (c *clientImpl) IndexExists(ctx context.Context, index string) (bool, error) {
 	exist, err := c.client.IndexExists(index).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error check index", err)
@@ -66,7 +67,7 @@ func (c *esClient) IndexExists(ctx context.Context, index string) (bool, error) 
 	return exist, nil
 }
 
-func (c *esClient) CreateIndex(ctx context.Context, index string) (*elastic.IndicesCreateResult, error) {
+func (c *clientImpl) CreateIndex(ctx context.Context, index string) (*elastic.IndicesCreateResult, error) {
 	result, err := c.client.CreateIndex(index).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error create index", err)
@@ -75,7 +76,7 @@ func (c *esClient) CreateIndex(ctx context.Context, index string) (*elastic.Indi
 	return result, nil
 }
 
-func (c *esClient) GetByID(ctx context.Context, index string, dataType string, id string) (*elastic.GetResult, error) {
+func (c *clientImpl) GetByID(ctx context.Context, index string, dataType string, id string) (*elastic.GetResult, error) {
 	result, err := c.client.Get().Index(index).Type(dataType).Id(id).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error get id", err)
@@ -88,7 +89,7 @@ func (c *esClient) GetByID(ctx context.Context, index string, dataType string, i
 	return result, nil
 }
 
-func (c *esClient) PutJSON(ctx context.Context, index string, dataType string, data interface{}) (*elastic.IndexResponse, error) {
+func (c *clientImpl) PutJSON(ctx context.Context, index string, dataType string, data interface{}) (*elastic.IndexResponse, error) {
 	result, err := c.client.Index().Index(index).Type(dataType).BodyJson(data).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error put data to es", err)
@@ -97,7 +98,7 @@ func (c *esClient) PutJSON(ctx context.Context, index string, dataType string, d
 	return result, nil
 }
 
-func (c *esClient) PutJSONWithID(ctx context.Context, index string, dataType string, id string, data interface{}) (*elastic.IndexResponse, error) {
+func (c *clientImpl) PutJSONWithID(ctx context.Context, index string, dataType string, id string, data interface{}) (*elastic.IndexResponse, error) {
 	result, err := c.client.Index().Index(index).Type(dataType).Id(id).BodyJson(data).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error put data to es", err)
@@ -106,7 +107,7 @@ func (c *esClient) PutJSONWithID(ctx context.Context, index string, dataType str
 	return result, nil
 }
 
-func (c *esClient) PutString(ctx context.Context, index string, dataType string, data string) (*elastic.IndexResponse, error) {
+func (c *clientImpl) PutString(ctx context.Context, index string, dataType string, data string) (*elastic.IndexResponse, error) {
 	result, err := c.client.Index().Index(index).Type(dataType).BodyString(data).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error put data to es", err)
@@ -115,7 +116,7 @@ func (c *esClient) PutString(ctx context.Context, index string, dataType string,
 	return result, nil
 }
 
-func (c *esClient) PutStringWithID(ctx context.Context, index string, dataType string, id string, data string) (*elastic.IndexResponse, error) {
+func (c *clientImpl) PutStringWithID(ctx context.Context, index string, dataType string, id string, data string) (*elastic.IndexResponse, error) {
 	result, err := c.client.Index().Index(index).Type(dataType).Id(id).BodyString(data).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error put data to es", err)
@@ -124,7 +125,16 @@ func (c *esClient) PutStringWithID(ctx context.Context, index string, dataType s
 	return result, nil
 }
 
-func (c *esClient) Update(ctx context.Context, index string, dataType string, id string, data interface{}, script *elastic.Script) (*elastic.UpdateResponse, error) {
+func (c *clientImpl) Update(ctx context.Context, index string, dataType string, id string, data interface{}) (*elastic.UpdateResponse, error) {
+	result, err := c.client.Update().Index(index).Type(dataType).Id(id).Doc(data).DocAsUpsert(true).Do(ctx)
+	if err != nil {
+		log.ErrorDetail(log.TagES, "error update data to es", err)
+		return nil, err
+	}
+	return result, nil
+}
+
+func (c *clientImpl) UpdateWithScript(ctx context.Context, index string, dataType string, id string, data interface{}, script *elastic.Script) (*elastic.UpdateResponse, error) {
 	result, err := c.client.Update().Index(index).Type(dataType).Id(id).Script(script).Upsert(data).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error update data to es", err)
@@ -133,7 +143,7 @@ func (c *esClient) Update(ctx context.Context, index string, dataType string, id
 	return result, nil
 }
 
-func (c *esClient) DeleteIndex(ctx context.Context, index string) (*elastic.IndicesDeleteResponse, error) {
+func (c *clientImpl) DeleteIndex(ctx context.Context, index string) (*elastic.IndicesDeleteResponse, error) {
 	result, err := c.client.DeleteIndex(index).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error delete index", err)
@@ -142,7 +152,7 @@ func (c *esClient) DeleteIndex(ctx context.Context, index string) (*elastic.Indi
 	return result, nil
 }
 
-func (c *esClient) DeleteByID(ctx context.Context, index string, dataType string, id string) (*elastic.DeleteResponse, error) {
+func (c *clientImpl) DeleteByID(ctx context.Context, index string, dataType string, id string) (*elastic.DeleteResponse, error) {
 	result, err := c.client.Delete().Index(index).Type(dataType).Id(id).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error delete data by id", err)
@@ -151,11 +161,11 @@ func (c *esClient) DeleteByID(ctx context.Context, index string, dataType string
 	return result, nil
 }
 
-func (c *esClient) GetSearchInstance() *elastic.SearchService {
+func (c *clientImpl) GetSearchInstance() *elastic.SearchService {
 	return c.client.Search()
 }
 
-func (c *esClient) Flush(ctx context.Context, index string) (*elastic.IndicesFlushResponse, error) {
+func (c *clientImpl) Flush(ctx context.Context, index string) (*elastic.IndicesFlushResponse, error) {
 	result, err := c.client.Flush().Index(index).Do(ctx)
 	if err != nil {
 		log.ErrorDetail(log.TagES, "error flush index to es", err)

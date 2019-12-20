@@ -8,15 +8,15 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-type RedisClient interface {
+type Client interface {
 	Dial() error
 }
 
-type redisClient struct {
+type clientImpl struct {
 	pool *redis.Pool
 }
 
-func NewRedisClient(cfg *config.RedisConfig) RedisClient {
+func New(cfg *config.RedisConfig) *clientImpl {
 	pool := &redis.Pool{
 		IdleTimeout: time.Duration(cfg.IdleTimeout),
 		MaxActive:   cfg.MaxActive,
@@ -34,12 +34,12 @@ func NewRedisClient(cfg *config.RedisConfig) RedisClient {
 	if err != nil {
 		log.FatalDetail(log.TagRedis, "error dial redis", err)
 	}
-	return &redisClient{
+	return &clientImpl{
 		pool: pool,
 	}
 }
 
-func (c *redisClient) Dial() error {
+func (c *clientImpl) Dial() error {
 	_, err := c.pool.Dial()
 	if err != nil {
 		log.ErrorDetail(log.TagRedis, "error dial redis", err)
@@ -48,6 +48,6 @@ func (c *redisClient) Dial() error {
 	return nil
 }
 
-func (c *redisClient) GetInstance() *redis.Pool {
+func (c *clientImpl) GetInstance() *redis.Pool {
 	return c.pool
 }

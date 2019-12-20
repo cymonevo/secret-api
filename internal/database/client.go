@@ -8,26 +8,26 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type DBClient interface {
+type Client interface {
 	Dial() error
 	GetInstance() *sqlx.DB
 }
 
-type dbClient struct {
+type clientImpl struct {
 	db *sqlx.DB
 }
 
-func NewDBClient(cfg *config.DBConfig) DBClient {
+func New(cfg config.DBConfig) *clientImpl {
 	db, err := sqlx.Open(cfg.Driver, parseDSN(cfg))
 	if err != nil {
-		log.FatalDetail(log.TagDB, "error create db client", err)
+		log.FatalDetail(log.TagDB, "error create db clientImpl", err)
 	}
-	return &dbClient{
+	return &clientImpl{
 		db: db,
 	}
 }
 
-func (c *dbClient) Dial() error {
+func (c *clientImpl) Dial() error {
 	err := c.db.Ping()
 	if err != nil {
 		log.ErrorDetail(log.TagDB, "error ping db", err)
@@ -36,6 +36,6 @@ func (c *dbClient) Dial() error {
 	return nil
 }
 
-func (c *dbClient) GetInstance() *sqlx.DB {
+func (c *clientImpl) GetInstance() *sqlx.DB {
 	return c.db
 }

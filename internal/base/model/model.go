@@ -2,7 +2,7 @@ package model
 
 import "context"
 
-type Model interface {
+type BaseModel interface {
 	Call(ctx context.Context) (interface{}, error)
 	Validate(ctx context.Context) error
 }
