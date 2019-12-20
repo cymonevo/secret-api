@@ -7,14 +7,14 @@ import (
 
 type DBRepo interface {
 	GetDB() *sqlx.DB
-	SetDB(client database.DBClient)
+	SetDB(client database.Client)
 }
 
 type BaseDBRepo struct {
-	dbClient database.DBClient
+	dbClient database.Client
 }
 
-func (d *BaseDBRepo) SetDB(client database.DBClient) {
+func (d *BaseDBRepo) SetDB(client database.Client) {
 	d.dbClient = client
 }
 

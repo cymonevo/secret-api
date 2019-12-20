@@ -6,13 +6,13 @@ type MQClient interface {
 	Register(topic string, channel string)
 }
 
-type mqClient struct {
+type Client struct {
 }
 
-func NewMQClient() MQClient {
-	return &mqClient{}
+func New() *Client {
+	return &Client{}
 }
 
-func (c *mqClient) Register(topic string, channel string) {
+func (c *Client) Register(topic string, channel string) {
 	nsq.Register(topic, channel)
 }
