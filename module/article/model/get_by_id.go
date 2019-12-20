@@ -1,32 +1,34 @@
 package model
 
 import (
+	"context"
 	"time"
 
-	ientity "github.com/cymon1997/go-backend/internal/entity"
+	base "github.com/cymon1997/go-backend/internal/base/entity"
+	"github.com/cymon1997/go-backend/internal/base/model"
 	"github.com/cymon1997/go-backend/module/article/entity"
 )
 
 type getByIDModel struct {
+	model.BaseModel
 }
 
-func (g *getByIDModel) Call() (interface{}, error) {
-	err := g.Validate()
+func (m *getByIDModel) Call(ctx context.Context) (interface{}, error) {
+	err := m.Validate(ctx)
 	if err != nil {
 		return nil, err
 	}
-
 	result := entity.Article{
 		Title:       "Golang Project Structure",
 		Description: "How to design your golang project structure",
-		BaseTimestamp: ientity.BaseTimestamp{
-			CreateBy:   1,
+		Timestamp: base.Timestamp{
+			CreateBy:   "",
 			CreateTime: time.Now(),
 		},
 	}
 	return &result, nil
 }
 
-func (g *getByIDModel) Validate() error {
+func (m *getByIDModel) Validate(ctx context.Context) error {
 	return nil
 }
