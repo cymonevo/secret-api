@@ -7,25 +7,25 @@ import (
 	"github.com/nsqio/go-nsq"
 )
 
-type MQPublisher interface {
+type Publisher interface {
 	Publish(topic string, message interface{}) error
 }
 
-type mqPublisher struct {
+type publisherImpl struct {
 	producer *nsq.Producer
 }
 
-func NewMQPublisher(cfg *config.MQPublisherConfig) MQPublisher {
+func NewPublisher(cfg config.MQPublisherConfig) *publisherImpl {
 	prod, err := nsq.NewProducer(cfg.NsqdAddress, nsq.NewConfig())
 	if err != nil {
 		log.FatalDetail(log.TagMQ, "error create publisher", err)
 	}
-	return &mqPublisher{
+	return &publisherImpl{
 		producer: prod,
 	}
 }
 
-func (p *mqPublisher) Publish(topic string, msg interface{}) error {
+func (p *publisherImpl) Publish(topic string, msg interface{}) error {
 	body, err := json.Marshal(msg)
 	if err != nil {
 		log.ErrorDetail(log.TagMQ, "error marshall publish message", err)

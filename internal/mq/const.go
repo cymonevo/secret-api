@@ -1,5 +1,5 @@
 package mq
 
 const (
-	topicPrefix = "GOBACKEND_"
+	topicPrefix = "GOBACKEND"
 )
