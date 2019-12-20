@@ -18,8 +18,6 @@ maxidle = 240
 nsqdaddress = 127.0.0.1:4150
 
 [MQConsumerConfig]
-topic = Check_Consumer
-channel = go_backend
 lookupaddress = 127.0.0.1:4161
 maxattempts = 3
 maxinflight = 5
