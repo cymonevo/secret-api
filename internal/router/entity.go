@@ -1,4 +1,4 @@
-package handler
+package router
 
 type Response struct {
 	Status  int         `json:"status"`

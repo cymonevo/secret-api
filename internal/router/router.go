@@ -11,8 +11,9 @@ import (
 )
 
 type Router interface {
-	Handle(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error))
+	SetPrefix(path string)
 	HandleJSON(path string, method string, f func(ctx context.Context, r *http.Request) (interface{}, error))
+	HandleView(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error))
 	ServeHTTP(w http.ResponseWriter, r *http.Request)
 }
 
@@ -21,50 +22,55 @@ type RenderRequest struct {
 	Data     interface{}
 }
 
-type handlerImpl struct {
-	router       *mux.Router
-	renderEngine render.Client
+type routerImpl struct {
+	engine *mux.Router
+	render render.Client
 }
 
-func NewRouter(renderEngine render.Client) Router {
+func NewRouter(render render.Client) Router {
 	router := mux.NewRouter()
-	return &handlerImpl{
-		router:       router,
-		renderEngine: renderEngine,
+	return &routerImpl{
+		engine: router,
+		render: render,
 	}
 }
 
-func (h *handlerImpl) Handle(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error)) {
-	ctx := context.Background()
-	handler := func(w http.ResponseWriter, r *http.Request) {
-		request, _ := f(ctx, r)
-		h.renderEngine.Render(w, request.Template, request.Data)
-	}
-	h.router.HandleFunc(path, handler).Methods(method)
+func (r *routerImpl) SetPrefix(path string) {
+	r.engine = r.engine.PathPrefix(path).Subrouter()
 }
 
-func (h *handlerImpl) HandleJSON(path string, method string, f func(ctx context.Context, r *http.Request) (interface{}, error)) {
+func (r *routerImpl) HandleView(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error)) {
 	ctx := context.Background()
-	handler := func(w http.ResponseWriter, r *http.Request) {
-		result, err := f(ctx, r)
+	handler := func(w http.ResponseWriter, req *http.Request) {
+		request, _ := f(ctx, req)
+		r.render.Render(w, request.Template, request.Data)
+	}
+	r.engine.HandleFunc(path, handler).Methods(method)
+}
+
+func (r *routerImpl) HandleJSON(path string, method string, f func(ctx context.Context, r *http.Request) (interface{}, error)) {
+	ctx := context.Background()
+	handler := func(w http.ResponseWriter, req *http.Request) {
+		result, err := f(ctx, req)
 		var response *Response
 		if err != nil {
-			response = h.setResponse(http.StatusInternalServerError, "internal server", nil)
+			response = r.buildResponse(http.StatusInternalServerError, "internal server", nil)
+		} else {
+			response = r.buildResponse(http.StatusOK, "success", result)
 		}
-		response = h.setResponse(http.StatusOK, "success", result)
 		err = json.NewEncoder(w).Encode(response)
 		if err != nil {
 			log.ErrorDetail(log.TagHandler, "error encode response", err)
 		}
 	}
-	h.router.HandleFunc(path, handler).Methods(method)
+	r.engine.HandleFunc(path, handler).Methods(method)
 }
 
-func (h *handlerImpl) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	h.router.ServeHTTP(w, r)
+func (r *routerImpl) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	r.engine.ServeHTTP(w, req)
 }
 
-func (h *handlerImpl) setResponse(status int, message string, payload interface{}) *Response {
+func (r *routerImpl) buildResponse(status int, message string, payload interface{}) *Response {
 	return &Response{
 		Status:  status,
 		Message: message,
