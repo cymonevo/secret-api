@@ -16,21 +16,17 @@ var (
 )
 
 func GetRouter() router.Router {
-	if appRouter == nil {
-		syncAppRouter.Do(func() {
-			appRouter = router.NewRouter(GetRenderEngine())
-		})
-	}
+	syncAppRouter.Do(func() {
+		appRouter = router.New(GetRenderEngine())
+	})
 	return appRouter
 }
 
 func GetRenderEngine() render.Client {
-	if renderEngine == nil {
-		syncRenderEngine.Do(func() {
-			renderEngine = render.New(render.Config{
-				TemplatePath: "files/",
-			})
+	syncRenderEngine.Do(func() {
+		renderEngine = render.New(render.Config{
+			TemplatePath: "files/",
 		})
-	}
+	})
 	return renderEngine
 }

@@ -20,30 +20,24 @@ var (
 )
 
 func GetDBClient() database.Client {
-	if dbClient == nil {
-		syncDbClient.Do(func() {
-			cfg := GetAppConfig().DBConfig
-			dbClient = database.New(cfg)
-		})
-	}
+	syncDbClient.Do(func() {
+		cfg := GetAppConfig().DBConfig
+		dbClient = database.New(cfg)
+	})
 	return dbClient
 }
 
 func GetRedisClient() redis.Client {
-	if redisClient == nil {
-		syncRedisClient.Do(func() {
-			cfg := GetAppConfig().RedisConfig
-			redisClient = redis.New(&cfg)
-		})
-	}
+	syncRedisClient.Do(func() {
+		cfg := GetAppConfig().RedisConfig
+		redisClient = redis.New(&cfg)
+	})
 	return redisClient
 }
 
 func GetMQClient() mq.Server {
-	if mqServer == nil {
-		syncMqClient.Do(func() {
-			mqServer = mq.New()
-		})
-	}
+	syncMqClient.Do(func() {
+		mqServer = mq.New()
+	})
 	return mqServer
 }

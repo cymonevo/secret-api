@@ -12,10 +12,9 @@ var (
 )
 
 func GetArticleHandler() handler.BaseHandler {
-	if articleHandler == nil {
-		syncArticleHandler.Do(func() {
-			articleHandler = handler.NewArticleHandler(GetRouter(), GetArticleFactory())
-		})
-	}
+	syncArticleHandler.Do(func() {
+		//articleHandler = handler.NewArticleHandler(GetRouter(), GetArticleFactory())
+		articleHandler = handler.NewArticleHandler(GetRouter(), nil)
+	})
 	return articleHandler
 }

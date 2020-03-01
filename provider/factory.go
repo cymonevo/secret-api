@@ -12,10 +12,8 @@ var (
 )
 
 func GetArticleFactory() model.Factory {
-	if articleFactory == nil {
-		syncArticleFactory.Do(func() {
-			articleFactory = model.NewArticleFactory(GetDBClient(), GetRedisClient(), GetPublisher())
-		})
-	}
+	syncArticleFactory.Do(func() {
+		articleFactory = model.NewArticleFactory(GetDBClient(), GetRedisClient(), GetPublisher())
+	})
 	return articleFactory
 }

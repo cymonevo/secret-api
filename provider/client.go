@@ -12,11 +12,9 @@ var (
 )
 
 func GetESClient() elastic.Client {
-	if esClient == nil {
-		syncEsClient.Do(func() {
-			cfg := GetAppConfig().ESConfig
-			esClient = elastic.NewESClient(cfg)
-		})
-	}
+	syncEsClient.Do(func() {
+		cfg := GetAppConfig().ESConfig
+		esClient = elastic.New(cfg)
+	})
 	return esClient
 }

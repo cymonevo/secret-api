@@ -12,10 +12,8 @@ var (
 )
 
 func GetAppConfig() *config.MainConfig {
-	if mainConfig == nil {
-		syncMainConfig.Do(func() {
-			mainConfig = config.LoadMainConfig()
-		})
-	}
+	syncMainConfig.Do(func() {
+		mainConfig = config.LoadMainConfig()
+	})
 	return mainConfig
 }
