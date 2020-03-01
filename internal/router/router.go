@@ -27,7 +27,7 @@ type routerImpl struct {
 	render render.Client
 }
 
-func NewRouter(render render.Client) Router {
+func New(render render.Client) *routerImpl {
 	router := mux.NewRouter()
 	return &routerImpl{
 		engine: router,

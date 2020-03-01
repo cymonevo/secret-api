@@ -3,10 +3,10 @@ package consumer
 import (
 	"encoding/json"
 
+	"github.com/cymon1997/go-backend/entity"
 	"github.com/cymon1997/go-backend/internal/config"
 	"github.com/cymon1997/go-backend/internal/log"
 	"github.com/cymon1997/go-backend/internal/mq"
-	"github.com/cymon1997/go-backend/module/article/entity"
 	"github.com/nsqio/go-nsq"
 )
 
@@ -33,6 +33,6 @@ func (c *articleConsumersImpl) insert(msg *nsq.Message) error {
 		log.ErrorDetail(log.TagMQ, "error unmarshal message", err)
 		return err
 	}
-	log.InfoDetail(log.TagMQ, "consume data %v", data)
+	log.Infof(log.TagMQ, "consume data %+v", data)
 	return nil
 }

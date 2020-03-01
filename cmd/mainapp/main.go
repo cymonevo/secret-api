@@ -7,6 +7,8 @@ import (
 	"github.com/cymon1997/go-backend/provider"
 )
 
+const mainTag = "Main"
+
 func main() {
 	consumers := provider.GetArticleConsumers()
 	for _, c := range consumers {
@@ -14,5 +16,5 @@ func main() {
 	}
 
 	handlers := provider.GetArticleHandler()
-	log.Fatalf("Aborting...", http.ListenAndServe(":8000", handlers.Register()))
+	log.Fatalf(mainTag, "Aborting...", http.ListenAndServe(":8000", handlers.Register()))
 }

@@ -32,7 +32,7 @@ type clientImpl struct {
 	host   string
 }
 
-func NewESClient(cfg config.ESConfig) *clientImpl {
+func New(cfg config.ESConfig) *clientImpl {
 	client, err := elastic.NewClientFromConfig(parseConfig(cfg))
 	if err != nil {
 		log.FatalDetail(log.TagES, "error create es client", err)

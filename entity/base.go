@@ -8,3 +8,8 @@ type Timestamp struct {
 	UpdateTime time.Time `json:"update_time" db:"update_time"`
 	UpdateBy   string    `json:"update_by" db:"update_by"`
 }
+
+type Response struct {
+	Message string `json:"message,omitempty"`
+	Status  int    `json:"status,omitempty"`
+}

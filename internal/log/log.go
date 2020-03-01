@@ -5,78 +5,70 @@ import (
 	"os"
 )
 
-func setFormat(format string, tag bool, err bool) string {
-	if tag {
-		format = fmt.Sprint(tagline, format)
-	}
+func setFormat(format string, err bool) string {
 	if err {
 		format = fmt.Sprint(format, errline)
 	}
-	return fmt.Sprint(format, newline)
-}
-
-func setLine(format string) string {
-	return fmt.Sprint(format, newline)
+	return fmt.Sprint(timeline, traceline(), tagline, format, newline)
 }
 
 func Print(format string) {
 	print(format)
 }
 
-func Printf(format string, args ...interface{}) {
-	printf(setFormat(format, false, false), args)
-}
-
-func PrintDetail(flag string, format string, args ...interface{}) {
-	printf(setFormat(format, true, false), flag, args)
+func Printf(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	printf(setFormat(format, false), args...)
 }
 
 func Info(format string) {
 	info(format)
 }
 
-func Infof(format string, args ...interface{}) {
-	infof(setFormat(format, false, false), args)
-}
-
-func InfoDetail(flag string, format string, args ...interface{}) {
-	infof(setFormat(format, true, false), flag, args)
+func Infof(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	infof(setFormat(format, false), args...)
 }
 
 func Debug(format string) {
 	debug(format)
 }
 
-func Debugf(format string, args ...interface{}) {
-	debugf(setFormat(format, false, false), args)
+func Debugf(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	debugf(setFormat(format, false), args...)
 }
 
-func DebugDetail(flag string, format string, args ...interface{}) {
-	debugf(setFormat(format, true, false), flag, args)
+func DebugDetail(format string, args ...interface{}) {
+	debugf(setFormat(format, true), args...)
 }
 
 func Warn(format string) {
 	warn(format)
 }
 
-func Warnf(format string, args ...interface{}) {
-	warnf(setFormat(format, false, true), args)
+func Warnf(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	warnf(setFormat(format, false), args...)
 }
 
-func WarnDetail(flag string, format string, args ...interface{}) {
-	warnf(setFormat(format, true, true), flag, args)
+func WarnDetail(tag string, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	warnf(setFormat(format, true), args...)
 }
 
 func Error(format string) {
 	error(format)
 }
 
-func Errorf(format string, args ...interface{}) {
-	errorf(setFormat(format, false, true), args)
+func Errorf(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	errorf(setFormat(format, false), args...)
 }
 
-func ErrorDetail(flag string, format string, args ...interface{}) {
-	errorf(setFormat(format, true, true), flag, args)
+func ErrorDetail(tag string, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	errorf(setFormat(format, true), args...)
 }
 
 func Fatal(format string) {
@@ -84,12 +76,14 @@ func Fatal(format string) {
 	os.Exit(1)
 }
 
-func Fatalf(format string, args ...interface{}) {
-	fatalf(setFormat(format, false, true), args)
+func Fatalf(tag, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	fatalf(setFormat(format, false), args...)
 	os.Exit(1)
 }
 
-func FatalDetail(flag string, format string, args ...interface{}) {
-	fatalf(setFormat(format, true, true), flag, args)
+func FatalDetail(tag string, format string, args ...interface{}) {
+	args = append([]interface{}{tag}, args...)
+	fatalf(setFormat(format, true), args...)
 	os.Exit(1)
 }
