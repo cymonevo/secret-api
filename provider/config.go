@@ -3,7 +3,7 @@ package provider
 import (
 	"sync"
 
-	"github.com/cymon1997/go-backend/internal/config"
+	"github.com/cymonevo/secret-api/internal/config"
 )
 
 var (

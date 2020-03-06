@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/cymon1997/go-backend/internal/database"
+	"github.com/cymonevo/secret-api/internal/database"
 	"github.com/jmoiron/sqlx"
 )
 

@@ -3,7 +3,7 @@ package provider
 import (
 	"sync"
 
-	"github.com/cymon1997/go-backend/handler"
+	"github.com/cymonevo/secret-api/handler"
 )
 
 var (

@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cymon1997/go-backend/internal/log"
-	"github.com/cymon1997/go-backend/internal/render"
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/cymonevo/secret-api/internal/render"
 	"github.com/gorilla/mux"
 )
 
@@ -27,7 +27,7 @@ type routerImpl struct {
 	render render.Client
 }
 
-func New(render render.Client) *routerImpl {
+func New(render render.Client) Router {
 	router := mux.NewRouter()
 	return &routerImpl{
 		engine: router,
@@ -54,7 +54,8 @@ func (r *routerImpl) HandleJSON(path string, method string, f func(ctx context.C
 		result, err := f(ctx, req)
 		var response *Response
 		if err != nil {
-			response = r.buildResponse(http.StatusInternalServerError, "internal server", nil)
+			//TODO: specify error type
+			response = r.buildResponse(http.StatusInternalServerError, "internal server error", result)
 		} else {
 			response = r.buildResponse(http.StatusOK, "success", result)
 		}

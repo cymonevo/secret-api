@@ -3,11 +3,11 @@ package model
 import (
 	"context"
 
-	"github.com/cymon1997/go-backend/entity"
-	"github.com/cymon1997/go-backend/internal/database"
-	"github.com/cymon1997/go-backend/internal/log"
-	"github.com/cymon1997/go-backend/internal/mq"
-	"github.com/cymon1997/go-backend/internal/redis"
+	"github.com/cymonevo/secret-api/entity"
+	"github.com/cymonevo/secret-api/internal/database"
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/cymonevo/secret-api/internal/mq"
+	"github.com/cymonevo/secret-api/internal/redis"
 )
 
 const healthTag = "Article|Health"

@@ -1,7 +1,7 @@
 package socket
 
 import (
-	"github.com/cymon1997/go-backend/internal/log"
+	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/googollee/go-socket.io"
 )
 

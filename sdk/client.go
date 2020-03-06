@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cymon1997/go-backend/handler"
-	"github.com/cymon1997/go-backend/internal/log"
+	"github.com/cymonevo/secret-api/handler"
+	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/google/go-querystring/query"
 )
 

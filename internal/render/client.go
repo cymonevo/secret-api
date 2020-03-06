@@ -2,7 +2,7 @@ package render
 
 import (
 	"fmt"
-	"github.com/cymon1997/go-backend/internal/log"
+	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/unrolled/render"
 	"html/template"
 	"io"

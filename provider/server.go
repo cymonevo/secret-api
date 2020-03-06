@@ -3,8 +3,8 @@ package provider
 import (
 	"sync"
 
-	"github.com/cymon1997/go-backend/internal/render"
-	"github.com/cymon1997/go-backend/internal/router"
+	"github.com/cymonevo/secret-api/internal/render"
+	"github.com/cymonevo/secret-api/internal/router"
 )
 
 var (

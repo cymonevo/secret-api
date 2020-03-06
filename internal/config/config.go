@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cymon1997/go-backend/internal/log"
+	"github.com/cymonevo/secret-api/internal/log"
 	"gopkg.in/gcfg.v1"
 )
 

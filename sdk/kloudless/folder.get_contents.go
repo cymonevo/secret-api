@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/cymon1997/go-backend/handler"
-	"github.com/cymon1997/go-backend/internal/log"
-	"github.com/cymon1997/go-backend/sdk"
+	"github.com/cymonevo/secret-api/handler"
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/cymonevo/secret-api/sdk"
 )
 
 const getFolderContents = "/accounts/%d/storage/folders/%s/contents"

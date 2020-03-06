@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/cymon1997/go-backend/internal/log"
-	"github.com/cymon1997/go-backend/internal/router"
-	"github.com/cymon1997/go-backend/module/article/model"
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/cymonevo/secret-api/internal/router"
+	"github.com/cymonevo/secret-api/module/article/model"
 )
 
 type articleHandlerImpl struct {

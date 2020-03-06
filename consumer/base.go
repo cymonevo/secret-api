@@ -1,6 +1,6 @@
 package consumer
 
-import "github.com/cymon1997/go-backend/internal/mq"
+import "github.com/cymonevo/secret-api/internal/mq"
 
 type BaseConsumerHandler interface {
 	GetConsumers() []mq.BaseConsumer

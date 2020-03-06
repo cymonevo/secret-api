@@ -3,10 +3,10 @@ package consumer
 import (
 	"encoding/json"
 
-	"github.com/cymon1997/go-backend/entity"
-	"github.com/cymon1997/go-backend/internal/config"
-	"github.com/cymon1997/go-backend/internal/log"
-	"github.com/cymon1997/go-backend/internal/mq"
+	"github.com/cymonevo/secret-api/entity"
+	"github.com/cymonevo/secret-api/internal/config"
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/cymonevo/secret-api/internal/mq"
 	"github.com/nsqio/go-nsq"
 )
 

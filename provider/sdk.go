@@ -3,8 +3,8 @@ package provider
 import (
 	"sync"
 
-	"github.com/cymon1997/go-backend/sdk"
-	"github.com/cymon1997/go-backend/sdk/kloudless"
+	"github.com/cymonevo/secret-api/sdk"
+	"github.com/cymonevo/secret-api/sdk/kloudless"
 )
 
 var (
