@@ -2,6 +2,22 @@
 
 
 [[projects]]
+  digest = "1:c650a37d840e321d68b8648de7da6d6b963b5fd3e29427f4a1f12e93d2d0fdf5"
+  name = "github.com/Jeffail/gabs"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "43dfde426d0417a7171556159e8c2ae46c0f8f23"
+  version = "v2.5.0"
+
+[[projects]]
+  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  pruneopts = "UT"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
+
+[[projects]]
   digest = "1:bde2a1ce1de28312f165a88926c12f4acd19dc4d7da96a445dfa5a29eae07a93"
   name = "github.com/fatih/color"
   packages = ["."]
@@ -16,6 +32,14 @@
   pruneopts = "UT"
   revision = "17ef3dd9d98b69acec3e85878995ada9533a9370"
   version = "v1.5.0"
+
+[[projects]]
+  digest = "1:7ae311278f7ccaa724de8f2cdec0a507ba3ee6dea8c77237e8157bcf64b0f28b"
+  name = "github.com/golang/mock"
+  packages = ["gomock"]
+  pruneopts = "UT"
+  revision = "b48cb6623c04dae64c28537143aca42d16561daf"
+  version = "v1.4.1"
 
 [[projects]]
   digest = "1:e4f5819333ac698d294fe04dbf640f84719658d5c7ce195b10060cc37292ce79"
@@ -167,6 +191,54 @@
   version = "v0.9.1"
 
 [[projects]]
+  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  pruneopts = "UT"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:5e8f46b412421d2d6cceea845d28ac46f3f5a5f60a6e86f0ee75e24fd43a02a9"
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  pruneopts = "UT"
+  revision = "3ebf1ddaeb260c4b1ae502a01c7844fa8c1fa0e9"
+  version = "v1.5.1"
+
+[[projects]]
+  digest = "1:358f9a53d3bb46b9dd07b4490f9b30f9f85218b41f6bbb48d6503668a45721a6"
+  name = "github.com/tidwall/gjson"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f042915ca17de35980544c91ab2c8ceb73b682f2"
+  version = "v1.6.0"
+
+[[projects]]
+  digest = "1:8453ddbed197809ee8ca28b06bd04e127bec9912deb4ba451fea7a1eca578328"
+  name = "github.com/tidwall/match"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "33827db735fff6510490d69a8622612558a557ed"
+  version = "v1.0.1"
+
+[[projects]]
+  digest = "1:f63bab79e68e805cdd9bf70daa09e8c430cfbddf29d14b567a92fb12581b9b95"
+  name = "github.com/tidwall/pretty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b2475501f89994f7ea30b3c94ba86b49079961fe"
+  version = "v1.0.1"
+
+[[projects]]
+  digest = "1:b70c951ba6fdeecfbd50dabe95aa5e1b973866ae9abbece46ad60348112214f2"
+  name = "github.com/tidwall/sjson"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "25fb082a20e29e83fb7b7ef5f5919166aad1f084"
+  version = "v1.0.4"
+
+[[projects]]
   digest = "1:993a90f0b2fdf9ad7e841c918e978510c3f23728c1fa02bdf9565714a5647e44"
   name = "github.com/unrolled/render"
   packages = ["."]
@@ -196,6 +268,14 @@
   version = "v1.2.3"
 
 [[projects]]
+  digest = "1:a4b04b5314d49a67ad022fa7693453ee2b823ab99314f52fa3930ed31085dfef"
+  name = "gopkg.in/guregu/null.v3"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "80515d440932108546bcade467bb7d6968e812e2"
+  version = "v3.4.0"
+
+[[projects]]
   digest = "1:87b7c01b551a2d00f950e26f8498036e1f225be3a5e11890ee7e3749bcb51929"
   name = "gopkg.in/olivere/elastic.v6"
   packages = ["."]
@@ -211,12 +291,22 @@
   revision = "ec4a0fea49c7b46c2aeb0b51aac55779c607e52b"
   version = "v0.1.2"
 
+[[projects]]
+  digest = "1:55b110c99c5fdc4f14930747326acce56b52cfce60b24b1c03ef686ac0e46bb1"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "53403b58ad1b561927d19068c655246f2db79d48"
+  version = "v2.2.8"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/Jeffail/gabs",
     "github.com/fatih/color",
     "github.com/go-sql-driver/mysql",
+    "github.com/golang/mock/gomock",
     "github.com/gomodule/redigo/redis",
     "github.com/google/go-querystring/query",
     "github.com/googollee/go-socket.io",
@@ -225,8 +315,12 @@
     "github.com/lib/pq",
     "github.com/nsqio/go-nsq",
     "github.com/olivere/elastic/config",
+    "github.com/stretchr/testify/assert",
+    "github.com/tidwall/gjson",
+    "github.com/tidwall/sjson",
     "github.com/unrolled/render",
     "gopkg.in/gcfg.v1",
+    "gopkg.in/guregu/null.v3",
     "gopkg.in/olivere/elastic.v6",
   ]
   solver-name = "gps-cdcl"

@@ -5,19 +5,20 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type DBRepo interface {
-	GetDB() *sqlx.DB
-	SetDB(client database.Client)
-}
-
 type BaseDBRepo struct {
 	dbClient database.Client
 }
 
-func (d *BaseDBRepo) SetDB(client database.Client) {
-	d.dbClient = client
+func NewBaseDBRepo(db database.Client) *BaseDBRepo {
+	return &BaseDBRepo{
+		dbClient: db,
+	}
 }
 
 func (d *BaseDBRepo) GetDB() *sqlx.DB {
 	return d.dbClient.GetInstance()
 }
+
+//TODO: Implement basic DB operation
+
+//TODO: Implement statement management

@@ -1,12 +1,19 @@
 package entity
 
-import "time"
+import (
+	"gopkg.in/guregu/null.v3"
+)
+
+type CreateTime struct {
+	CreateTime null.Time `json:"create_time" db:"create_time"`
+	CreateBy   null.Int  `json:"create_by" db:"create_by"`
+}
 
 type Timestamp struct {
-	CreateTime time.Time `json:"create_time" db:"create_time"`
-	CreateBy   string    `json:"create_by" db:"create_by"`
-	UpdateTime time.Time `json:"update_time" db:"update_time"`
-	UpdateBy   string    `json:"update_by" db:"update_by"`
+	CreateTime null.Time `json:"create_time" db:"create_time"`
+	CreateBy   null.Int  `json:"create_by" db:"create_by"`
+	UpdateTime null.Time `json:"update_time" db:"update_time"`
+	UpdateBy   null.Int  `json:"update_by" db:"update_by"`
 }
 
 type Response struct {
