@@ -1,0 +1,29 @@
+[DBConfig]
+Driver = postgres
+DBName = development
+User = postgres
+Password = postgres
+Host = 127.0.0.1
+Port = 5432
+SSLMode = disable
+
+[RedisConfig]
+Network = tcp
+Address = 127.0.0.1
+Port = 6379
+IdleTimeout = 10
+MaxActive = 30
+MaxIdle = 240
+
+[MQPublisherConfig]
+NsqdAddress = 127.0.0.1:4150
+
+[MQConsumerConfig]
+LookupAddress = 127.0.0.1:4161
+MaxAttempts = 3
+MaxInFlight = 5
+
+[ESConfig]
+Protocol = http
+Host = 127.0.0.1
+Port = 9200

@@ -6,14 +6,14 @@ const (
 		VALUES (:app_id, :data, :create_by")`
 
 	getAllSecretQuery = `
-		SELECT (id, app_id, data, create_time, create_by)
+		SELECT id, app_id, data, create_time, create_by
 		FROM scr_secret
 		WHERE app_id = $1
 		ORDER BY create_time DESC
 		LIMIT $2`
 
 	getLastSecretQuery = `
-		SELECT (id, app_id, data, create_time, create_by)
+		SELECT id, app_id, data, create_time, create_by
 		FROM scr_secret
 		WHERE app_id = $1
 		ORDER BY create_time DESC

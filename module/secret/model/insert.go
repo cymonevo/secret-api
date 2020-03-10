@@ -33,19 +33,21 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
+	var key [32]byte
+	copy(key[:], app.Secret)
 	last, err := m.dbRepo.GetLastSecret(ctx, m.request.AppID)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error get last data: %v", err)
 		response.Message = err.Error()
 		return response, err
 	}
-	old, err := util.Decrypt(last.Data, &app.Secret)
+	old, err := util.Decrypt(last.Data, &key)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error decrypt old data: %v", err)
 		response.Message = err.Error()
 		return response, err
 	}
-	new, err := util.Decrypt(m.request.Data, &app.Secret)
+	new, err := util.Decrypt(m.request.Data, &key)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error decrypt new data: %v", err)
 		response.Message = err.Error()
@@ -57,7 +59,7 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
-	last.Data, err = util.Encrypt(result, &app.Secret)
+	last.Data, err = util.Encrypt(result, &key)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error encrypt result: %v", err)
 		response.Message = err.Error()

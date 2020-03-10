@@ -1,6 +1,7 @@
 package util
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -10,6 +11,14 @@ import (
 func TestEncryptDecrypt(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	data := struct {
+		username string
+		password string
+	}{
+		username: "username",
+		password: "password",
+	}
+	enc, _ := json.Marshal(data)
 	tests := []struct {
 		name     string
 		request  []byte
@@ -18,7 +27,7 @@ func TestEncryptDecrypt(t *testing.T) {
 	}{
 		{
 			name:    "no error",
-			request: []byte{1, 2, 3, 4, 5, 6, 7, 8},
+			request: enc,
 			isErr:   false,
 		},
 	}

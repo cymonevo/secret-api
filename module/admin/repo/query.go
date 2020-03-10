@@ -6,7 +6,7 @@ const (
 		VALUES (:app_id, :secret)`
 
 	getAppQuery = `
-		SELECT (app_id, secret)
+		SELECT app_id, secret
 		FROM scr_app
 		WHERE app_id = $1`
 )

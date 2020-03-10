@@ -19,6 +19,7 @@ type DBConfig struct {
 	Password string
 	Host     string
 	Port     string
+	SSLMode  string
 }
 
 type RedisConfig struct {

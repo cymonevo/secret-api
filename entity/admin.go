@@ -1,8 +1,8 @@
 package entity
 
 type AppData struct {
-	AppID  string   `db:"app_id"`
-	Secret [32]byte `db:"secret"`
+	AppID  string `db:"app_id"`
+	Secret []byte `db:"secret,string"`
 }
 
 type RegisterRequest struct {
@@ -10,6 +10,6 @@ type RegisterRequest struct {
 }
 
 type RegisterResponse struct {
-	Secret [32]byte `json:"secret"`
+	Secret []byte `json:"secret"`
 	Response
 }
