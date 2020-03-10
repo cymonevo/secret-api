@@ -5,10 +5,7 @@ import (
 	"os"
 )
 
-func setFormat(format string, err bool) string {
-	if err {
-		format = fmt.Sprint(format, errline)
-	}
+func setFormat(format string) string {
 	return fmt.Sprint(timeline, traceline(), tagline, format, newline)
 }
 
@@ -18,7 +15,7 @@ func Print(format string) {
 
 func Printf(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	printf(setFormat(format, false), args...)
+	printf(setFormat(format), args...)
 }
 
 func Info(format string) {
@@ -27,7 +24,7 @@ func Info(format string) {
 
 func Infof(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	infof(setFormat(format, false), args...)
+	infof(setFormat(format), args...)
 }
 
 func Debug(format string) {
@@ -36,11 +33,11 @@ func Debug(format string) {
 
 func Debugf(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	debugf(setFormat(format, false), args...)
+	debugf(setFormat(format), args...)
 }
 
 func DebugDetail(format string, args ...interface{}) {
-	debugf(setFormat(format, true), args...)
+	debugf(setFormat(format), args...)
 }
 
 func Warn(format string) {
@@ -49,12 +46,12 @@ func Warn(format string) {
 
 func Warnf(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	warnf(setFormat(format, false), args...)
+	warnf(setFormat(format), args...)
 }
 
 func WarnDetail(tag string, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	warnf(setFormat(format, true), args...)
+	warnf(setFormat(format), args...)
 }
 
 func Error(format string) {
@@ -63,12 +60,12 @@ func Error(format string) {
 
 func Errorf(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	errorf(setFormat(format, false), args...)
+	errorf(setFormat(format), args...)
 }
 
 func ErrorDetail(tag string, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	errorf(setFormat(format, true), args...)
+	errorf(setFormat(format), args...)
 }
 
 func Fatal(format string) {
@@ -78,12 +75,12 @@ func Fatal(format string) {
 
 func Fatalf(tag, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	fatalf(setFormat(format, false), args...)
+	fatalf(setFormat(format), args...)
 	os.Exit(1)
 }
 
 func FatalDetail(tag string, format string, args ...interface{}) {
 	args = append([]interface{}{tag}, args...)
-	fatalf(setFormat(format, true), args...)
+	fatalf(setFormat(format), args...)
 	os.Exit(1)
 }

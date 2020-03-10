@@ -8,8 +8,6 @@ import (
 )
 
 type DBRepo interface {
-	InsertApp(ctx context.Context, data entity.AppData) error
-	GetApp(ctx context.Context, id string) (entity.AppData, error)
 	InsertSecret(ctx context.Context, data entity.SecretData) error
 	GetAllSecret(ctx context.Context, appID string, limit int) ([]entity.SecretData, error)
 	GetLastSecret(ctx context.Context, appID string) (entity.SecretData, error)
@@ -23,23 +21,6 @@ func NewSecretDBRepo(db *repo.BaseDBRepo) *SecretDBRepo {
 	return &SecretDBRepo{
 		db: db,
 	}
-}
-
-func (r *SecretDBRepo) InsertApp(ctx context.Context, data entity.AppData) error {
-	_, err := r.db.GetDB().NamedExecContext(ctx, insertAppQuery, data)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (r *SecretDBRepo) GetApp(ctx context.Context, id string) (entity.AppData, error) {
-	var result entity.AppData
-	err := r.db.GetDB().GetContext(ctx, &result, getAppQuery, id)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
 }
 
 func (r *SecretDBRepo) InsertSecret(ctx context.Context, data entity.SecretData) error {

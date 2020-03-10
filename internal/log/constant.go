@@ -10,7 +10,6 @@ import (
 
 const (
 	tagline = "[%s] "
-	errline = ", Err: %v"
 	newline = "\n"
 )
 

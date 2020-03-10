@@ -2,10 +2,11 @@ package render
 
 import (
 	"fmt"
-	"github.com/cymonevo/secret-api/internal/log"
-	"github.com/unrolled/render"
 	"html/template"
 	"io"
+
+	"github.com/cymonevo/secret-api/internal/log"
+	"github.com/unrolled/render"
 )
 
 type Client interface {
@@ -24,7 +25,6 @@ type clientImpl struct {
 func New(cfg Config) Client {
 	//templates := template.Must(template.ParseGlob(fmt.Sprint(cfg.TemplatePath, "template/section/*.html")))
 	templates := template.Must(template.ParseGlob(fmt.Sprint(cfg.TemplatePath, "template/*.html")))
-	fmt.Printf("list template, %v", templates)
 	return &clientImpl{
 		engine: render.New(render.Options{
 			Directory: "files/template",

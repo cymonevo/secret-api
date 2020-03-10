@@ -1,10 +1,5 @@
 package entity
 
-type AppData struct {
-	AppID  string   `db:"app_id"`
-	Secret [32]byte `db:"secret"`
-}
-
 type SecretData struct {
 	ID    string `db:"id"`
 	AppID string `db:"app_id"`

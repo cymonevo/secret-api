@@ -11,7 +11,6 @@ import (
 )
 
 type Router interface {
-	SetPrefix(path string)
 	HandleJSON(path string, method string, f func(ctx context.Context, r *http.Request) (interface{}, error))
 	HandleView(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error))
 	ServeHTTP(w http.ResponseWriter, r *http.Request)
@@ -33,10 +32,6 @@ func New(render render.Client) Router {
 		engine: router,
 		render: render,
 	}
-}
-
-func (r *routerImpl) SetPrefix(path string) {
-	r.engine = r.engine.PathPrefix(path).Subrouter()
 }
 
 func (r *routerImpl) HandleView(path string, method string, f func(ctx context.Context, r *http.Request) (RenderRequest, error)) {

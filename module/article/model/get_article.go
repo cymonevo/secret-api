@@ -6,6 +6,7 @@ import (
 
 	"github.com/cymonevo/secret-api/entity"
 	"github.com/cymonevo/secret-api/internal/log"
+	"gopkg.in/guregu/null.v3"
 )
 
 const getArticleTag = "Article|Get"
@@ -25,8 +26,8 @@ func (m *GetArticleModel) Do(ctx context.Context) (entity.GetArticleResponse, er
 		Title:       "Golang Project Structure",
 		Description: "How to design your golang project structure",
 		Timestamp: entity.Timestamp{
-			CreateBy:   "",
-			CreateTime: time.Now(),
+			CreateBy:   null.NewInt(0, true),
+			CreateTime: null.NewTime(time.Now(), true),
 		},
 	}
 	return response, nil

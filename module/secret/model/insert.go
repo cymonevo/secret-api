@@ -8,14 +8,16 @@ import (
 	"github.com/cymonevo/secret-api/internal/encoding/json"
 	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/cymonevo/secret-api/internal/util"
+	admin "github.com/cymonevo/secret-api/module/admin/repo"
 	"github.com/cymonevo/secret-api/module/secret/repo"
 )
 
 const insertSecretTag = "Secret|Insert"
 
 type InsertSecretModel struct {
-	dbRepo  repo.DBRepo
-	request entity.InsertSecretRequest
+	adminRepo admin.DBRepo
+	dbRepo    repo.DBRepo
+	request   entity.InsertSecretRequest
 }
 
 func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse, error) {
@@ -25,7 +27,7 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
-	app, err := m.dbRepo.GetApp(ctx, m.request.AppID)
+	app, err := m.adminRepo.GetApp(ctx, m.request.AppID)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error get app data: %v", err)
 		response.Message = err.Error()
@@ -77,4 +79,5 @@ func (m *InsertSecretModel) Validate(ctx context.Context) error {
 	if m.request.Data == nil {
 		return errors.New("invalid request")
 	}
+	return nil
 }
