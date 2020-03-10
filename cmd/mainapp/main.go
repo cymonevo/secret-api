@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/cymonevo/secret-api/internal/log"
@@ -14,5 +15,8 @@ func main() {
 	//for _, c := range consumers {
 	//	c.Consume()
 	//}
-	log.Fatalf(mainTag, "Aborting...", http.ListenAndServe(":8200", provider.SetupHandler()))
+	cfg := provider.GetAppConfig()
+	log.Infof(mainTag, "app is running at :%d", cfg.AppConfig.Port)
+	log.Fatalf(mainTag, "aborting...", http.ListenAndServe(fmt.Sprintf("%s:%d",
+		cfg.AppConfig.Host, cfg.AppConfig.Port), provider.SetupHandler()))
 }

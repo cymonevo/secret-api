@@ -1,3 +1,7 @@
+[AppConfig]
+host = localhost
+port = 8200
+
 [DBConfig]
 Driver = postgres
 DBName = development

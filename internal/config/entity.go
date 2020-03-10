@@ -5,11 +5,17 @@ import (
 )
 
 type MainConfig struct {
+	AppConfig         AppConfig
 	DBConfig          DBConfig
 	RedisConfig       RedisConfig
 	MQPublisherConfig MQPublisherConfig
 	MQConsumerConfig  MQConsumerConfig
 	ESConfig          ESConfig
+}
+
+type AppConfig struct {
+	Host string
+	Port int
 }
 
 type DBConfig struct {

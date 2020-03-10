@@ -1,0 +1,3 @@
+# Any changes within these files below will be ignored from git workflow
+# but the file itself will still contained in git
+files/config/local.gcfg

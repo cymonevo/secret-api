@@ -3,20 +3,38 @@
 export NOW = $(shell date --rfc-3339=ns)
 
 install:
-	@echo "configuring dep"
+	@echo "installation task started"
+	@echo "- configuring dep..."
 	@dep init
-	@echo "installing dependencies..."
+	@echo "-- success"
+	@echo "- installing dependencies..."
 	@dep ensure -v
-	@echo "install success!"
+	@echo "-- success"
+	@echo "- configuring environment..."
+	@echo "$(cat .ignore)" >> .git/info/exclude
+	@echo "-- success"
+	@echo "installation success!"
+
+ignore:
+	@echo "ingoring files"
+	@git update-index --assume-unchanged *
+
+ignore:
+	@echo "ingore task started"
+	@git update-index --no-assume-unchanged *
 
 update:
-	@echo "updating dependencies..."
+	@echo "update task started"
+	@echo "- updating dependencies..."
 	@dep ensure -v
+	@echo "-- success"
 	@echo "update success!"
 
 build:
-	@echo "building main-app..."
+	@echo "build task started"
+	@echo "- building main-app..."
 	@go build -o mainapp ./cmd/mainapp/
+	@echo "-- success"
 	@echo "build success!"
 
 run:
