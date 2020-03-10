@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SHELL := /bin/bash
 
 export NOW = $(shell date --rfc-3339=ns)
 
@@ -16,12 +17,12 @@ install:
 	@echo "installation success!"
 
 ignore:
-	@echo "ingoring files"
-	@git update-index --assume-unchanged *
+	@echo "ingoring files..."
+	@source command.sh; ignore
 
-ignore:
-	@echo "ingore task started"
-	@git update-index --no-assume-unchanged *
+unignore:
+	@echo "revert ingoring files..."
+	@source command.sh; unignore
 
 update:
 	@echo "update task started"
