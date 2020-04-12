@@ -2,9 +2,11 @@ package repo
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/cymonevo/secret-api/entity"
 	"github.com/cymonevo/secret-api/internal/base/repo"
+	"github.com/cymonevo/secret-api/internal/errors"
 )
 
 type DBRepo interface {
@@ -34,6 +36,9 @@ func (r *AdminDBRepo) GetApp(ctx context.Context, id string) (entity.AppData, er
 	var result entity.AppData
 	err := r.db.GetDB().GetContext(ctx, &result, getAppQuery, id)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return result, errors.New(errors.NoDataFound)
+		}
 		return result, err
 	}
 	return result, nil

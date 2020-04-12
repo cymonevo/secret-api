@@ -3,6 +3,7 @@ package router
 import (
 	"context"
 	"encoding/json"
+	"github.com/cymonevo/secret-api/internal/util"
 	"net/http"
 
 	"github.com/cymonevo/secret-api/internal/log"
@@ -49,8 +50,7 @@ func (r *routerImpl) HandleJSON(path string, method string, f func(ctx context.C
 		result, err := f(ctx, req)
 		var response *Response
 		if err != nil {
-			//TODO: specify error type
-			response = r.buildResponse(http.StatusInternalServerError, "internal server error", result)
+			response = r.buildResponse(util.ErrStatus(err), util.ErrStatusMessage(err), result)
 		} else {
 			response = r.buildResponse(http.StatusOK, "success", result)
 		}

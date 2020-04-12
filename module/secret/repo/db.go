@@ -2,9 +2,11 @@ package repo
 
 import (
 	"context"
-	"github.com/cymonevo/secret-api/entity"
+	"database/sql"
 
+	"github.com/cymonevo/secret-api/entity"
 	"github.com/cymonevo/secret-api/internal/base/repo"
+	"github.com/cymonevo/secret-api/internal/errors"
 )
 
 type DBRepo interface {
@@ -35,6 +37,9 @@ func (r *SecretDBRepo) GetAllSecret(ctx context.Context, appID string, limit int
 	var result []entity.SecretData
 	err := r.db.GetDB().SelectContext(ctx, &result, getAllSecretQuery, appID, limit)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return result, errors.New(errors.NoDataFound)
+		}
 		return result, err
 	}
 	return result, nil
@@ -44,6 +49,9 @@ func (r *SecretDBRepo) GetLastSecret(ctx context.Context, appID string) (entity.
 	var result entity.SecretData
 	err := r.db.GetDB().GetContext(ctx, &result, getLastSecretQuery, appID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return result, errors.New(errors.NoDataFound)
+		}
 		return result, err
 	}
 	return result, nil

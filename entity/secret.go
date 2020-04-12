@@ -8,11 +8,19 @@ type SecretData struct {
 }
 
 type InsertSecretRequest struct {
-	AppID string `json:"app_id"`
-	Data  []byte `json:"data"`
-	//Data  json.RawMessage `json:"data"`
+	AppID string      `json:"app_id"`
+	Data  interface{} `json:"data"`
 }
 
 type InsertSecretResponse struct {
+	Response
+}
+
+type GetSecretRequest struct {
+	AppID string `json:"app_id"`
+}
+
+type GetSecretResponse struct {
+	Data interface{} `json:"data,omitempty"`
 	Response
 }

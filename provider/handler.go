@@ -8,9 +8,6 @@ import (
 )
 
 var (
-	articleHandler     handler.BaseHandler
-	syncArticleHandler sync.Once
-
 	adminHandler     handler.BaseHandler
 	syncAdminHandler sync.Once
 
@@ -19,17 +16,10 @@ var (
 )
 
 func SetupHandler() router.Router {
-	//GetArticleHandler().Register(GetRouter())
-	GetAdminHandler().Register(GetRouter())
-	GetSecretHandler().Register(GetRouter())
-	return GetRouter()
-}
-
-func GetArticleHandler() handler.BaseHandler {
-	syncArticleHandler.Do(func() {
-		articleHandler = handler.NewArticleHandler(GetArticleFactory())
-	})
-	return articleHandler
+	r := GetRouter()
+	GetAdminHandler().Register(r)
+	GetSecretHandler().Register(r)
+	return r
 }
 
 func GetAdminHandler() handler.BaseHandler {

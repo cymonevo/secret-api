@@ -2,12 +2,12 @@ package model
 
 import (
 	"context"
-	"errors"
 
 	"github.com/cymonevo/secret-api/entity"
 	"github.com/cymonevo/secret-api/internal/encoding/json"
 	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/cymonevo/secret-api/internal/util"
+	"github.com/cymonevo/secret-api/internal/validator"
 	admin "github.com/cymonevo/secret-api/module/admin/repo"
 	"github.com/cymonevo/secret-api/module/secret/repo"
 )
@@ -33,10 +33,18 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
+	data, err := json.Marshal(m.request.Data)
+	log.DebugDetail("[DEBUG] data: %v", data)
 	var key [32]byte
 	copy(key[:], app.Secret)
 	last, err := m.dbRepo.GetLastSecret(ctx, m.request.AppID)
 	if err != nil {
+		if util.IsErrNotFound(err) {
+			return m.insert(ctx, entity.SecretData{
+				AppID: m.request.AppID,
+				Data:  data,
+			})
+		}
 		log.ErrorDetail(insertSecretTag, "error get last data: %v", err)
 		response.Message = err.Error()
 		return response, err
@@ -47,13 +55,7 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
-	new, err := util.Decrypt(m.request.Data, &key)
-	if err != nil {
-		log.ErrorDetail(insertSecretTag, "error decrypt new data: %v", err)
-		response.Message = err.Error()
-		return response, err
-	}
-	result, err := json.Merge(old, new, json.OptionReplace)
+	result, err := json.Merge(old, data, json.OptionReplace)
 	if err != nil {
 		log.ErrorDetail(insertSecretTag, "error merge data: %v", err)
 		response.Message = err.Error()
@@ -65,21 +67,29 @@ func (m *InsertSecretModel) Do(ctx context.Context) (entity.InsertSecretResponse
 		response.Message = err.Error()
 		return response, err
 	}
-	err = m.dbRepo.InsertSecret(ctx, last)
-	if err != nil {
-		log.ErrorDetail(insertSecretTag, "error save to db: %v", err)
-		response.Message = err.Error()
-		return response, err
-	}
-	return response, nil
+	return m.insert(ctx, last)
 }
 
-func (m *InsertSecretModel) Validate(ctx context.Context) error {
+func (m *InsertSecretModel) insert(ctx context.Context, secret entity.SecretData) (resp entity.InsertSecretResponse, err error) {
+	err = m.dbRepo.InsertSecret(ctx, secret)
+	if err != nil {
+		log.ErrorDetail(insertSecretTag, "error save to db: %v", err)
+		resp.Message = err.Error()
+		return
+	}
+	return
+}
+
+func (m *InsertSecretModel) Validate(_ context.Context) error {
+	v := validator.New()
 	if m.request.AppID == "" {
-		return errors.New("invalid request")
+		v.Missing("app_id")
 	}
 	if m.request.Data == nil {
-		return errors.New("invalid request")
+		v.Missing("data")
 	}
-	return nil
+	if _, err := json.Marshal(m.request); err != nil {
+		v.Message("invalid format")
+	}
+	return v.Error()
 }

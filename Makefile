@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
 SHELL := /bin/bash
 
-export NOW = $(shell date --rfc-3339=ns)
+export NOW=$(shell date --rfc-3339=ns)
 
 install:
 	@echo "installation task started"
-	@echo "- configuring dep..."
+	@echo -n "- configuring dep... "
 	@dep init
-	@echo "-- success"
-	@echo "- installing dependencies..."
+	@echo "ok"
+	@echo -n "- installing dependencies... "
 	@dep ensure -v
-	@echo "-- success"
-	@echo "- configuring environment..."
+	@echo "ok"
+	@echo -n "- configuring environment... "
 	@echo "$(cat .ignore)" >> .git/info/exclude
-	@echo "-- success"
-	@echo "installation success!"
+	@echo "ok"
 
 ignore:
 	@echo "ingoring files..."
@@ -26,17 +25,15 @@ unignore:
 
 update:
 	@echo "update task started"
-	@echo "- updating dependencies..."
+	@echo -n "- updating dependencies... "
 	@dep ensure -v
-	@echo "-- success"
-	@echo "update success!"
+	@echo "ok"
 
 build:
 	@echo "build task started"
-	@echo "- building main-app..."
+	@echo -n "- building main-app... "
 	@go build -o mainapp ./cmd/mainapp/
-	@echo "-- success"
-	@echo "build success!"
+	@echo "ok"
 
 run:
 	@echo "starting app..."

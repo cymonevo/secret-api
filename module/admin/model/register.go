@@ -3,11 +3,11 @@ package model
 import (
 	"context"
 	"database/sql"
-	"errors"
 
 	"github.com/cymonevo/secret-api/entity"
 	"github.com/cymonevo/secret-api/internal/log"
 	"github.com/cymonevo/secret-api/internal/util"
+	"github.com/cymonevo/secret-api/internal/validator"
 	"github.com/cymonevo/secret-api/module/admin/repo"
 )
 
@@ -50,9 +50,10 @@ func (m *RegisterModel) Do(ctx context.Context) (entity.RegisterResponse, error)
 	return response, nil
 }
 
-func (m *RegisterModel) Validate(ctx context.Context) error {
+func (m *RegisterModel) Validate(_ context.Context) error {
+	v := validator.New()
 	if m.request.AppID == "" {
-		return errors.New("invalid request")
+		v.Missing("app_id")
 	}
-	return nil
+	return v.Error()
 }

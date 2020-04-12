@@ -20,7 +20,8 @@ func NewSecretFactory(adminRepo admin.DBRepo, dbRepo repo.DBRepo) *Factory {
 
 func (f *Factory) NewInsertSecretModel(request entity.InsertSecretRequest) *InsertSecretModel {
 	return &InsertSecretModel{
-		dbRepo:  f.dbRepo,
-		request: request,
+		adminRepo: f.adminRepo,
+		dbRepo:    f.dbRepo,
+		request:   request,
 	}
 }

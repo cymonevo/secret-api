@@ -35,7 +35,7 @@ func GetAdminDBRepo() admin.DBRepo {
 
 func GetSecretDBRepo() secret.DBRepo {
 	syncSecretDBRepo.Do(func() {
-		secret.NewSecretDBRepo(GetBaseDBRepo())
+		secretDBRepo = secret.NewSecretDBRepo(GetBaseDBRepo())
 	})
 	return secretDBRepo
 }
